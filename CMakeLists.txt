@@ -1,9 +1,13 @@
 cmake_minimum_required(VERSION 3.28)
 project(UFO)
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 
-add_executable(UFO Button.h HashMap.cpp project3test.cpp UFO.hpp)
+add_executable(UFO main.cpp Button.h
+        HashMap.cpp UFO.h Map.h
+        entryWindow.h
+        resultsWindow.h
+)
 
 set(SFML_STATIC_LIBRARIES TRUE)
 set(SFML_DIR C:/SFML/lib/cmake/SFML)
