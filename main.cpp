@@ -97,7 +97,7 @@ int main() {
     HashMap hashMap(1000);
     auto startMap = steady_clock::now();
     // TODO : UNCOMMENT WHEN TRANSFERRING TO VSTUDIO
-    //Map customMap;
+    Map customMap;
 
     auto stopMap = steady_clock::now();
     auto durationMap = duration_cast<milliseconds>(stopMap - startMap);
@@ -114,6 +114,6 @@ int main() {
 
     // TODO: figure out how to make it loop
     tuple<string, string, bool> entry = createEntryWindow();
-    resultsWindow(hashMap, entry);
+    resultsWindow(hashMap, customMap, entry);
 
 }
