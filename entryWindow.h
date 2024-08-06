@@ -1,6 +1,175 @@
 #pragma once
 #include "Button.h"
 
+vector<string> newInsertPage(string option){
+    // option like insert or remove
+    vector<string> options = {"City", "State", "Shape", "Duration", "Year"};
+    int width = 1500;
+    int height = 1000;
+    sf::RenderWindow optionWindow(sf::VideoMode(width, height), option + " UFO", sf::Style::Close | sf::Style::Titlebar);
+    sf::Font font;
+    font.loadFromFile("../files/font.ttf");
+
+    sf::Text welcomeText;
+    welcomeText.setString("INSERT UFO SIGHTINGS");
+    welcomeText.setFont(font);
+    welcomeText.setCharacterSize(50);
+    welcomeText.setStyle(sf::Text::Bold | sf::Text::Underlined);
+    welcomeText.setOutlineColor(sf::Color::Black);
+    welcomeText.setOutlineThickness(3);
+    welcomeText.setFillColor(sf::Color::White);
+    welcomeText.setPosition(width / 2.0f, 75);
+    welcomeText.setOrigin(welcomeText.getGlobalBounds().width / 2.0f, 0);
+    std::vector<sf::Text> inputTexts(5);
+    std::vector<std::string> inputs(5, "");
+
+    for (int i = 0; i < 5; ++i) {
+        inputTexts[i].setFont(font);
+        inputTexts[i].setCharacterSize(30);
+        inputTexts[i].setFillColor(sf::Color::White);
+        inputTexts[i].setPosition(340.0f, 200.0f + i * 50.0f);
+        inputTexts[i].setString("Input " + std::to_string(i + 1) + ": ");
+    }
+
+    int currentInput = 0; // Track which input is currently being entered
+
+    while (optionWindow.isOpen()) {
+        sf::Event event;
+        while (optionWindow.pollEvent(event)) {
+            if (currentInput == 5 || event.type == sf::Event::Closed ) {
+                optionWindow.close();
+            }
+            else if (event.type == sf::Event::TextEntered) {
+                // Handle text input
+                if (event.text.unicode < 128) { // ASCII characters only
+                    char enteredChar = static_cast<char>(event.text.unicode);
+                    if (enteredChar == '\b') { // Handle backspace
+                        if (!inputs[currentInput].empty()) {
+                            inputs[currentInput].pop_back();
+                        }
+                    }
+                    else if (enteredChar == '\r' || enteredChar == '\n') { // Handle Enter key
+                        if (currentInput < 5) {
+                            currentInput++; // Move to the next input
+                        }
+                    }
+                    else if (enteredChar == 27) { // Handle Escape key to clear current input
+                        inputs[currentInput] = "";
+                    }
+                    else {
+                        inputs[currentInput] += enteredChar;
+                    }
+                }
+            }
+        }
+
+        // Update text objects with current inputs
+        for (int i = 0; i < 5; ++i) {
+            inputTexts[i].setString(options[i] + ": " + inputs[i]);
+        }
+
+        optionWindow.clear();
+        for (const auto& text : inputTexts) {
+            optionWindow.draw(text);
+        }
+        optionWindow.draw(welcomeText);
+        optionWindow.display();
+    }
+
+    // Output the captured inputs
+    std::cout << "Collected Inputs:" << std::endl;
+    for (int i = 0; i < 5; ++i) {
+        std::cout << options[i] << ": " << inputs[i] << std::endl;
+    }
+    return inputs;
+}
+
+vector<string> removePage(){
+    // option like insert or remove
+
+    vector<string> options = {"State", "City"};
+    int width = 1500;
+    int height = 1000;
+    sf::RenderWindow optionWindow(sf::VideoMode(width, height), "Remove UFO", sf::Style::Close | sf::Style::Titlebar);
+    sf::Font font;
+    font.loadFromFile("../files/font.ttf");
+
+    sf::Text welcomeText;
+    welcomeText.setString("REMOVE UFO SIGHTINGS");
+    welcomeText.setFont(font);
+    welcomeText.setCharacterSize(50);
+    welcomeText.setStyle(sf::Text::Bold | sf::Text::Underlined);
+    welcomeText.setOutlineColor(sf::Color::Black);
+    welcomeText.setOutlineThickness(3);
+    welcomeText.setFillColor(sf::Color::White);
+    welcomeText.setPosition(width / 2.0f, 75);
+    welcomeText.setOrigin(welcomeText.getGlobalBounds().width / 2.0f, 0);
+
+    std::vector<sf::Text> inputTexts(2);
+    std::vector<std::string> inputs(2, "");
+
+    for (int i = 0; i < 2; ++i) {
+        inputTexts[i].setFont(font);
+        inputTexts[i].setCharacterSize(30);
+        inputTexts[i].setFillColor(sf::Color::White);
+        inputTexts[i].setPosition(340.0f, 200.0f + i * 50.0f);
+        inputTexts[i].setString("Input " + std::to_string(i + 1) + ": ");
+    }
+
+    int currentInput = 0; // Track which input is currently being entered
+
+    while (optionWindow.isOpen()) {
+        sf::Event event;
+        while (optionWindow.pollEvent(event)) {
+            if (currentInput == 2 || event.type == sf::Event::Closed ) {
+                optionWindow.close();
+            }
+            else if (event.type == sf::Event::TextEntered) {
+                // Handle text input
+                if (event.text.unicode < 128) { // ASCII characters only
+                    char enteredChar = static_cast<char>(event.text.unicode);
+                    if (enteredChar == '\b') { // Handle backspace
+                        if (!inputs[currentInput].empty()) {
+                            inputs[currentInput].pop_back();
+                        }
+                    }
+                    else if (enteredChar == '\r' || enteredChar == '\n') { // Handle Enter key
+                        if (currentInput < 2) {
+                            currentInput++; // Move to the next input
+                        }
+                    }
+                    else if (enteredChar == 27) { // Handle Escape key to clear current input
+                        inputs[currentInput] = "";
+                    }
+                    else {
+                        inputs[currentInput] += enteredChar;
+                    }
+                }
+            }
+        }
+
+        // Update text objects with current inputs
+        for (int i = 0; i < 2; ++i) {
+            inputTexts[i].setString(options[i] + ": " + inputs[i]);
+        }
+
+        optionWindow.clear();
+        for (const auto& text : inputTexts) {
+            optionWindow.draw(text);
+        }
+        optionWindow.draw(welcomeText);
+        optionWindow.display();
+    }
+
+    // Output the captured inputs
+    std::cout << "Collected Inputs:" << std::endl;
+    for (int i = 0; i < 2; ++i) {
+        std::cout << options[i] << ": " << inputs[i] << std::endl;
+    }
+    return inputs;
+}
+
+
 tuple<string,string, bool> createEntryWindow() {
     //https://www.geeksforgeeks.org/tuples-in-c/# used for storing the parameters
     tuple<string,string, bool> selection;
@@ -22,8 +191,12 @@ tuple<string,string, bool> createEntryWindow() {
         buttons.emplace_back(buttonSize, sf::Vector2f(380 + i * 200, 360), labels[i], font);
     }
 
+    // Create insert and remove buttons
+    Button insertButton(buttonSize, {500, 700}, "Insert", font);
+    Button removeButton(buttonSize, {800, 700}, "Remove", font);
+
     // create submit button
-    Button submit(buttonSize, {680, 600}, "Submit", font);
+    Button submit(buttonSize, {680, height / 2.0f + 400}, "Submit", font);
 
     // create Texts for Entry Page
     sf::Text welcomeText;
@@ -47,7 +220,7 @@ tuple<string,string, bool> createEntryWindow() {
     parameterPrompt.setOrigin(parameterPrompt.getLocalBounds().width / 2.0f, 0);
 
     sf::Text specific; // specified type of city, state, shape, and year for the search
-    specific.setString("Enter Specific Search:");
+    specific.setString("Enter Specific Search:\n\n\n\n\t\tOr\n Insert / Remove UFOS");
     specific.setFont(font);
     specific.setStyle(sf::Text::Bold);
     specific.setFillColor(sf::Color::White);
@@ -119,6 +292,7 @@ tuple<string,string, bool> createEntryWindow() {
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed)
                 window.close();
+                windowVal = false;
 
             if (event.type == sf::Event::TextEntered) { // collects characters for the specific entry
                 if (event.text.unicode >= 32) {
@@ -174,6 +348,14 @@ tuple<string,string, bool> createEntryWindow() {
                     }
                 }
                 // check if the submit button is clicked
+                if (insertButton.isClicked(mousePos)){
+                    selection = make_tuple("insert", "", true);
+                    window.close();
+                }
+                if (removeButton.isClicked(mousePos)){
+                    selection = make_tuple("remove", "", true);
+                    window.close();
+                }
                 if (submit.isClicked(mousePos) && finishedEntry == true) {
                     submit.setActive(true);
                     cout << "submitted parameter: " << parameter << "  \nspecific: " << name << "  \n" << submit.label;
@@ -197,6 +379,10 @@ tuple<string,string, bool> createEntryWindow() {
             window.draw(button.shape);
             window.draw(button.text);
         }
+        window.draw(insertButton.shape);
+        window.draw(insertButton.text);
+        window.draw(removeButton.shape);
+        window.draw(removeButton.text);
         window.draw(submit.shape);
         window.draw(submit.text);
 

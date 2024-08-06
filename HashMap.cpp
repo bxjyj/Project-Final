@@ -100,9 +100,8 @@ string HashMap::print() {
     string total = "";
 	for (int i = 0; i < size; i++) {
 		if (hashTable[i] != nullptr && !hashTable[i]->isDeleted) {
-			total += hashTable[i]->value;
+			total += "\n" + hashTable[i]->value ;
 		}
-        total += "\n";
 	}
     return total;
 }
